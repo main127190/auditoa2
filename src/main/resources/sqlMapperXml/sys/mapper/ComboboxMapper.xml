@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongxun.sys.mapper.ComboboxMapper">
+    <!--确认是否有重复的键值对-->
+    <select id="dictionariesComboboxByIcd" resultType="ComboboxModel">
+        SELECT
+            `id`  AS  valueField,
+            `value` AS  textField
+        FROM
+            dictionaries d
+        WHERE status='0'
+            AND icd=#{icd}
+            AND pid IS NOT NULL
+        ORDER BY seq
+    </select>
+
+
+</mapper>

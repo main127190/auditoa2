@@ -1,0 +1,35 @@
+
+*{ padding:0; margin:0;}
+
+/*==== GLOBAL =====*/
+#main {
+	width:100%;
+	height: 100%;
+	margin:0 auto;
+	background:url(../images/main-bg.png) no-repeat;
+	background-size: 100% 100%;
+	/*margin-top: -50px;*/
+
+	font-size:1.375em;
+}
+
+/*#header {*/
+	/*height:190px;*/
+/*}*/
+
+
+/*----- txt, links, lines, titles -----*/
+
+h1 {
+	font-size:40px;
+	line-height:1.2em;
+	font-weight:normal;
+	color:#a71f1f;
+	text-align:center;
+	padding:75px 0 0 0;
+}
+	h1 span {
+		display:block;
+		font-size:20px;
+		line-height:25px;
+	}

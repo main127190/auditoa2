@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongxun.sys.mapper.DictionariesMapper">
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id, name ,status, `key` , value , icd , pid ,create_user AS createUser,seq ,create_time  AS createTime,icon
+    </sql>
+
+
+    <!--确认是否有重复的键值对-->
+    <select id="confirmationOfRepetition" resultType="Dictionaries">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+            dictionaries d
+        WHERE
+            pid=#{pid}
+            AND status='0'
+        <if test='id != null and id != ""'>
+            AND id!=#{id}
+        </if>
+            AND (
+                `key`=#{key}
+              OR value=#{value}
+        )
+    </select>
+
+    <!--确认是否有重复的识别编码-->
+    <select id="confirmationOfFatherRepetition" resultType="Dictionaries">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+            dictionaries d
+        WHERE
+            pid IS NULL
+            AND status='0'
+            AND icd=#{icd}
+        <if test='id != null and id != ""'>
+            AND id!=#{id}
+        </if>
+    </select>
+
+    <select id="selectRoleList" resultType="Dictionaries">
+        select
+        <include refid="Base_Column_List"/>
+        from dictionaries
+        WHERE  pid IS NULL
+        <if test='dictionaries.status != null and dictionaries.status != -1'>
+            AND status=#{dictionaries.status}
+        </if>
+        <if test='dictionaries.icd != null and dictionaries.icd != ""'>
+            AND icd=#{dictionaries.icd}
+        </if>
+        order by ${sort} ${order}
+    </select>
+    <!--更新子节点-->
+    <update id="updateChild">
+        UPDATE  dictionaries SET
+            name=#{name},
+            `key`=#{key},
+            value=#{value},
+            status=#{status},
+            seq=#{seq}
+        WHERE id=#{id}
+    </update>
+    <!--更新父节点-->
+    <update id="updateFather">
+        UPDATE  dictionaries SET
+            name=#{name},
+            icd=#{icd},
+            status=#{status},
+            seq=#{seq}
+        WHERE id=#{id}
+    </update>
+    <!--更新父节点后更新子节点识别码-->
+    <update id="updateChildIcd">
+        UPDATE  dictionaries SET
+            icd=#{icd}
+        <if test='status == "1"'>
+           ,status=#{status}
+        </if>
+        WHERE pid=#{id}
+    </update>
+
+    <!--禁用节点以及子节点-->
+    <update id="disable">
+        UPDATE  dictionaries SET
+            status=#{status}
+        WHERE pid=#{id}
+        OR  id=#{id}
+    </update>
+</mapper>

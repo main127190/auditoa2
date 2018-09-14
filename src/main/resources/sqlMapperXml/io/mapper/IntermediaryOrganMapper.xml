@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongxun.io.mapper.IntermediaryOrganMapper">
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id, name ,abbreviation, aptitude ,contract_number AS contractNumber , contacts ,
+         contact_way AS  contactWay,address ,organization_id AS `organization.id`,
+         remarks,create_date AS createDate,file_url AS fileUrl
+    </sql>
+
+    <!--分页查询表格数据-->
+    <select id="selectDataGrid" resultType="IntermediaryOrgan">
+        select
+        (SELECT d.`value`  FROM dictionaries d
+                WHERE d.id=i.aptitude
+          ) AS  `aptitudeText` ,
+        (SELECT o.name FROM organization o WHERE i.organization_id = o.id ) AS  `organization.name` ,
+        <include refid="Base_Column_List"/>
+        from intermediary_organ i
+        WHERE del_flag =#{intermediaryOrgan.delFlag}
+        <if test="ids!=null and ids.size >0">
+            AND  organization_id IN
+            <foreach collection="ids" open="(" close=")" separator="," item="item">
+                #{item, jdbcType=BIGINT}
+            </foreach>
+        </if>
+        <if test='intermediaryOrgan.name != null and intermediaryOrgan.name != ""'>
+            AND name LIKE CONCAT('%', #{intermediaryOrgan.name}, '%')
+        </if>
+        <if test='intermediaryOrgan.abbreviation != null and intermediaryOrgan.abbreviation != ""'>
+            AND abbreviation LIKE CONCAT('%', #{intermediaryOrgan.abbreviation}, '%')
+        </if>
+        <if test='intermediaryOrgan.createDate != null '>
+            AND create_date &gt;=  #{intermediaryOrgan.createDate}
+        </if>
+        <if test='intermediaryOrgan.updateDate != null '>
+            AND create_date &lt; #{intermediaryOrgan.updateDate}
+        </if>
+        order by ${sort} ${order}
+    </select>
+
+    <!--根据ID查询对象-->
+   <select id="selectById" resultType="IntermediaryOrgan">
+        select
+        <include refid="Base_Column_List"/>
+        from intermediary_organ i
+        WHERE  del_flag =#{DEL_FLAG_NORMAL}
+            AND id=#{id}
+    </select>
+
+
+
+    <!--根据ID更新对象-->
+   <select id="updateById" >
+        UPDATE intermediary_organ SET
+           `name`=   #{name},
+           `abbreviation` =  #{abbreviation},
+           `aptitude`= #{aptitude},
+           `contract_number` =  #{contractNumber},
+           `contacts` =    #{contacts},
+           `contact_way`=  #{contactWay},
+           `address` = #{address},
+           `remarks`= #{remarks},
+           `file_url`= #{fileUrl},
+           `organization_id`=  #{organization.id},
+           `update_date`=  #{updateDate},
+           `update_by` = #{updateBy.id}
+        WHERE id=#{id}
+    </select>
+
+
+    <!--禁用中介-->
+    <update id="disable">
+        UPDATE  intermediary_organ SET
+        del_flag='1'
+        WHERE id IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+
+    <insert id="insert">
+        INSERT INTO Intermediary_organ (
+           `name`,
+           `abbreviation` ,
+           `aptitude`,
+           `contract_number` ,
+           `contacts` ,
+           `contact_way`,
+           `address` ,
+           `remarks`,
+           `file_url`,
+           `del_flag`,
+           `organization_id`,
+           `create_date` ,
+           `create_by`,
+           `update_date`,
+           `update_by`
+        )VALUE (
+            #{name},
+            #{abbreviation},
+            #{aptitude},
+            #{contractNumber},
+            #{contacts},
+            #{contactWay},
+            #{address},
+            #{remarks},
+            #{fileUrl},
+            #{delFlag},
+            #{organization.id},
+            #{createDate},
+            #{createBy.id},
+            #{updateDate},
+            #{updateBy.id}
+        )
+    </insert>
+
+</mapper>
