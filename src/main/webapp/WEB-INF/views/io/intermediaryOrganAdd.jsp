@@ -10,6 +10,7 @@
             url : '${path }/combobox/dictionariesCombobox?icd=company_qualification',
             valueField:'valueField',
             textField:'textField',
+            editable:false,
             onLoadSuccess:function () { //加载完成后,val[0]写死设置选中第一项
                 var val = $(this).combobox("getData");
                var defaultSelect = '${intermediaryOrgan.aptitude}';
@@ -27,12 +28,12 @@
         });
 
 
-        $('#organizationAddPid').combotree({
-            url : '${path }/organization/tree',
-            parentField : 'pid',
-            lines : true,
-            panelHeight : 'auto'
-        });
+        <%--$('#organizationAddPid').combotree({--%>
+            <%--url : '${path }/organization/tree',--%>
+            <%--parentField : 'pid',--%>
+            <%--lines : true,--%>
+            <%--panelHeight : 'auto'--%>
+        <%--});--%>
         
         $('#intermediaryOrganAddForm').form({
             url : '${path }/io/intermediaryOrgan/add',
@@ -99,11 +100,11 @@
                 <td>地址</td>
                 <td colspan="3"><input name="address" value="${intermediaryOrgan.address}" style="width: 300px;"/></td>
             </tr>
-            <tr>
-                <td>中介管理部门</td>
-                <td colspan="3"><select id="organizationAddPid" name="organization.id"  style="width:200px;height: 29px;"
-                                        data-options="value:'${intermediaryOrgan.organization.id}'"></select>
-            </tr>
+            <%--<tr>--%>
+                <%--<td>中介管理部门</td>--%>
+                <%--<td colspan="3"><select id="organizationAddPid" name="organization.id"  style="width:200px;height: 29px;"--%>
+                                        <%--data-options="value:'${intermediaryOrgan.organization.id}'"></select>--%>
+            <%--</tr>--%>
             <tr>
                 <td><label>附件列表:</label><br>
                     <input type="hidden" name="fileUrl" value="${fileKey}" />

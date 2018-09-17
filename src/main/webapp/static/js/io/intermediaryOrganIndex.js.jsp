@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<script type="application/javascript">
 var intermediaryDataGrid;
 $(function() {
     $('#intermediaryTest').treegrid({
@@ -116,15 +119,17 @@ $(function() {
             width : '80',
             title : '合同编号',
             field : 'contractNumber'
-        }, {
-            width : '80',
-            title : '责任部门',
-            field : 'organization.name',
-            //sortable : true,
-            formatter : function(value, row, index) {
-                return row.organization.name
-            }
-        },{
+        }
+        //    , {
+        //    width : '80',
+        //    title : '责任部门',
+        //    field : 'organization.name',
+        //    //sortable : true,
+        //    formatter : function(value, row, index) {
+        //        return row.organization.name
+        //    }
+        //}
+            ,{
             width : '80',
             title : '联系人',
             field : 'contacts'
@@ -159,7 +164,9 @@ $(function() {
             $('.user-easyui-linkbutton-edit').linkbutton({text:'编辑'});
             $('.user-easyui-linkbutton-del').linkbutton({text:'删除'});
         },
-        onDblClickRow: dblClickRowtoEdit ,
+        <shiro:hasPermission name="intermediary-organ:edit">
+            onDblClickRow: dblClickRowtoEdit ,
+        </shiro:hasPermission>
         toolbar : '#intermediaryToolbar'
     });
 
@@ -272,3 +279,4 @@ function remarkFormater(value, row, index) {
         content = '<span  href="javascript:;"  title="' + value + '" class="easyui-tooltip">' + abValue + '</span >';
     }   return content;
 }
+</script>

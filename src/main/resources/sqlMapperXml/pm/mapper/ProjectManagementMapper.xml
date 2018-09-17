@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongxun.pm.mapper.ProjectManagementMapper">
+
+    <!--分页查询表格数据-->
+    <select id="selectDataGrid" resultType="BaseProjectInfo">
+        select i.*,
+            (SELECT value FROM dictionaries d WHERE  d.id= i.project_nature) AS projectNatureText,
+            (SELECT value FROM dictionaries d2 WHERE  d2.id= i.project_type) AS projectTypeText,
+            (SELECT value FROM dictionaries d3 WHERE  d3.id= i.procurement_method) AS procurementMethodText,
+            (SELECT value FROM dictionaries d4 WHERE  d4.id= i.examine_stage) AS examineStageText,
+            (SELECT value FROM dictionaries d5 WHERE  d5.id= i.purchasing_type_description) AS purchasingTypeDescriptionText
+        FROM  project_info i
+        WHERE del_flag =#{baseProjectInfo.delFlag}
+        order by ${sort} ${order}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <insert id="insert">
+        INSERT INTO project_info (
+           `project_name` ,
+           `letter_delivery` ,
+           `trial_amount` ,
+           `trial_date` ,
+           `contacts`,
+            `office_phone` ,
+            `mobile_phone` ,
+           `responseibility_unit` ,
+           `construction_unit`,
+           `project_nature` ,
+           `project_type` ,
+           `procurement_method` ,
+           `examine_stage` ,
+           `contract_amount` ,
+           `audit_fee_provenance`,
+           `purchasing_type_description` ,
+           `audit_fee_name` ,
+           `status` ,
+           `del_flag` ,
+           `create_date` ,
+            `create_by` ,
+           `update_date` ,
+           `update_by`
+        )VALUE (
+            #{projectName},
+            #{letterDelivery},
+            #{trialAmount},
+            #{trialDate},
+            #{contacts},
+            #{officePhone},
+            #{mobilePhone},
+            #{responseibilityUnit},
+            #{constructionUnit},
+            #{projectNature},
+            #{projectType},
+            #{procurementMethod},
+            #{examineStage},
+            #{contractAmount},
+            #{auditFeeProvenance},
+            #{purchasingTypeDescription},
+            #{auditFeeName},
+            #{PROJECT_STATUS_REGISTER},
+            #{delFlag},
+            #{createDate},
+            #{createBy.id},
+            #{updateDate},
+            #{updateBy.id}
+        )
+    </insert>
+
+    <!--<insert id="insert2">-->
+        <!--INSERT INTO project_info (-->
+           <!--`project_name`-->
+
+        <!--)VALUE (-->
+           <!--"123"-->
+        <!--)-->
+    <!--</insert>-->
+
+</mapper>

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/commons/global.jsp" %>
 <%--<%@ include file="/commons/basejs.jsp" %>--%>
-<script type="text/javascript"
-        src="${staticPath }/static/js/io/intermediaryOrganIndex.js" charset="utf-8"></script>
+<jsp:include   page="${staticPath }/static/js/io/intermediaryOrganIndex.js.jsp" flush="true"/>
 
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'north',border:false" style="height: 30px; overflow: hidden;background-color: #fff">
@@ -14,12 +13,14 @@
                     <th>简称:</th>
                     <td><input name="abbreviation" placeholder="请输入简称"/></td>
                     <th>状态:</th>
-                    <td>
-                        <select  name="delFlag" class="easyui-combobox" data-options="width:80,height:29,editable:false,panelHeight:'auto'">
-                            <option value="0">正常</option>
-                            <option value="1">停用</option>
-                         </select>
-                    </td>
+                    <shiro:hasPermission name="intermediary-organ:check-delete">
+                        <th>
+                            <select  name="delFlag" class="easyui-combobox" data-options="width:80,height:29,editable:false,panelHeight:'auto'">
+                                <option value="0">正常</option>
+                                <option value="1">停用</option>
+                             </select>
+                        </th>
+                    </shiro:hasPermission>
                     <th>创建时间:</th>
                     <td>
                         <input  name="createDate" type="text" class="easyui-datetimebox" data-options="editable:false,prompt:'请选择时间'" />
@@ -53,8 +54,10 @@
 </div>
 
 <div id="intermediaryToolbar" style="display: none;">
-    <shiro:hasPermission name="/role/add">
+    <shiro:hasPermission name="intermediary-organ:add">
         <a onclick="intermediaryOrganIndex();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-plus icon-green'">添加</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="intermediary-organ:delete">
         <%--<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-pencil icon-blue'" onclick="deleteRoleFun();" >编辑</a>--%>
         <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-x icon-red'" onclick="deleteIntermediaryOrganFun();" >删除</a>
     </shiro:hasPermission>

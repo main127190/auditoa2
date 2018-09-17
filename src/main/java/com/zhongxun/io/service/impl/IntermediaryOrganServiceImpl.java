@@ -49,12 +49,12 @@ public class IntermediaryOrganServiceImpl extends ServiceImpl<IntermediaryOrganM
     public void selectDataGrid(PageInfo pageInfo,IntermediaryOrgan dictionaries) {
         Page<IntermediaryOrgan> page = new Page<IntermediaryOrgan>(pageInfo.getNowpage(), pageInfo.getSize());
         List<Long> ids=null ;
-        if(dictionaries.getOrganization()!=null && dictionaries.getOrganization().getId()!=null){
-            ids=new ArrayList();
-            ids.add(dictionaries.getOrganization().getId());
-            //获取该部门以及所有子部门ID
-            ids.addAll(lowerlevelDepartment(dictionaries.getOrganization().getId()));
-        }
+//        if(dictionaries.getOrganization()!=null && dictionaries.getOrganization().getId()!=null){
+//            ids=new ArrayList();
+//            ids.add(dictionaries.getOrganization().getId());
+//            //获取该部门以及所有子部门ID
+//            ids.addAll(lowerlevelDepartment(dictionaries.getOrganization().getId()));
+//        }
         List<IntermediaryOrgan> list = intermediaryOrganMapper.selectDataGrid(page, pageInfo.getSort(), pageInfo.getOrder(), dictionaries,ids);
         pageInfo.setRows(list);
         pageInfo.setTotal(page.getTotal());
