@@ -8,13 +8,14 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zhongxun.commons.base.DataEntity;
+import com.zhongxun.io.model.IntermediaryOrgan;
 import com.zhongxun.sys.model.Organization;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
 /**
- * 劳动合同
+ * 项目
  * @author xz
  * @version 2018年6月13日17:14:52
  */
@@ -58,6 +59,8 @@ public class BaseProjectInfo extends DataEntity<BaseProjectInfo> {
 	private String procurementMethodText;//政府采购方式显示值
 	private String examineStageText;//审核阶段显示值
 	private String purchasingTypeDescriptionText;//采购类型描述显示值
+
+	private IntermediaryOrgan intermediaryOrgan ;//委托的中介
 
 
 	private int status ; //状态，0:新登记项目 ,1:以委派项目,-1:完成项目
@@ -292,5 +295,13 @@ public class BaseProjectInfo extends DataEntity<BaseProjectInfo> {
 
 	public void setPurchasingTypeDescriptionText(String purchasingTypeDescriptionText) {
 		this.purchasingTypeDescriptionText = purchasingTypeDescriptionText;
+	}
+
+	public IntermediaryOrgan getIntermediaryOrgan() {
+		return intermediaryOrgan;
+	}
+
+	public void setIntermediaryOrgan(IntermediaryOrgan intermediaryOrgan) {
+		this.intermediaryOrgan = intermediaryOrgan;
 	}
 }

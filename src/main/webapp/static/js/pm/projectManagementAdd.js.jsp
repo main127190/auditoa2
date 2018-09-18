@@ -24,7 +24,7 @@
                     progressClose();
                     result = $.parseJSON(result);
                     if (result.success) {
-//                        parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_treeGrid这个对象，是因为organization.jsp页面预定义好了
+                        parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_treeGrid这个对象，是因为organization.jsp页面预定义好了
                         parent.$.modalDialog.handler.dialog('close');
                     }
                 }
@@ -33,14 +33,14 @@
 
 
     function initCombobox(){
-        loadCombobox("projectNature","project_nature");
-        loadCombobox("projectType","project_type");
-        loadCombobox("procurementMethod","procurement_method");
-        loadCombobox("examineStage","examine_stage");
-        loadCombobox("purchasingTypeDescription","procurement_type");
+        loadCombobox("projectNature","project_nature","${baseProjectInfo.projectNature}");
+        loadCombobox("projectType","project_type","${baseProjectInfo.projectType}");
+        loadCombobox("procurementMethod","procurement_method","${baseProjectInfo.procurementMethod}");
+        loadCombobox("examineStage","examine_stage","${baseProjectInfo.examineStage}");
+        loadCombobox("purchasingTypeDescription","procurement_type","${baseProjectInfo.purchasingTypeDescription}");
     }
 
-    function loadCombobox(id ,icd){
+    function loadCombobox(id ,icd,defaultValue){
 
         $('#'+id).combobox({
             url : '${path }/combobox/dictionariesCombobox?icd='+icd,
@@ -49,17 +49,12 @@
             editable:false,
             onLoadSuccess:function () { //加载完成后,val[0]写死设置选中第一项
                 var val = $(this).combobox("getData");
-//                var defaultSelect = '0';
-//
-//                if(defaultSelect!=null && defaultSelect!=undefined && defaultSelect!=''){
-//                    for (var a = 0; a < val.length; a++) {//2.当前下拉框的所有数据。
-//                        if(defaultSelect==val[a].valueField){//3.用后台传回来的实际值与下拉框中的值进行比较，若是二者相等那么默认选中该项。
-//                            $(this).combobox("select", val[a].valueField);
-//                        }
-//                    }
-//                }else{
+
+                if(defaultValue!=null && defaultValue!=undefined && defaultValue!=''){
+                            $(this).combobox("select",defaultValue );
+                }else{
                     $(this).combobox("select", val[0].valueField);
-//                }
+                }
             }
         });
     }

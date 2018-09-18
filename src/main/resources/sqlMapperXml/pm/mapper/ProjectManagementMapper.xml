@@ -9,16 +9,72 @@
             (SELECT value FROM dictionaries d2 WHERE  d2.id= i.project_type) AS projectTypeText,
             (SELECT value FROM dictionaries d3 WHERE  d3.id= i.procurement_method) AS procurementMethodText,
             (SELECT value FROM dictionaries d4 WHERE  d4.id= i.examine_stage) AS examineStageText,
+            (SELECT name FROM intermediary_organ o WHERE  o.id= i.intermediary_organ_id) AS  `intermediaryOrgan.name`,
             (SELECT value FROM dictionaries d5 WHERE  d5.id= i.purchasing_type_description) AS purchasingTypeDescriptionText
         FROM  project_info i
         WHERE del_flag =#{baseProjectInfo.delFlag}
         order by ${sort} ${order}
     </select>
 
+    <!--根据ID更新对象-->
+    <select id="updateById" >
+        UPDATE project_info SET
+        `project_name`=   #{projectName},
+        `letter_delivery` =  #{letterDelivery},
+        `trial_amount`= #{trialAmount},
+        `trial_date` =  #{trialDate},
+        `contacts` =    #{contacts},
+        `office_phone`=  #{officePhone},
+        `mobile_phone` = #{mobilePhone},
+        `responseibility_unit`= #{responseibilityUnit},
+        `construction_unit`= #{constructionUnit},
+        `project_nature`=  #{projectNature},
+        `project_type`=  #{projectType},
+        `procurement_method`=  #{procurementMethod},
+        `examine_stage`=  #{examineStage},
+        `contract_amount`=  #{contractAmount},
+        `audit_fee_provenance`=  #{auditFeeProvenance},
+        `purchasing_type_description`=  #{purchasingTypeDescription},
+        `audit_fee_name`=  #{auditFeeName},
+        `report_number`= #{reportNumber} ,
+        `fixed_amount`= #{fixedAmount} ,
+        `reduction_ratio`= #{reductionRatio} ,
+        `deductions`= #{deductions} ,
+        `audit_fee`= #{auditFee} ,
+        `supplementary_day`= #{supplementaryDay} ,
+        `update_date`=  #{updateDate},
+        `update_by` = #{updateBy.id}
+        WHERE id=#{id}
+    </select>
 
+    <!--根据ID查询对象-->
+    <select id="selectById" resultType="BaseProjectInfo">
+        select
+            i.*
+        from project_info i
+        WHERE  del_flag =#{DEL_FLAG_NORMAL}
+        AND id=#{id}
+    </select>
 
+    <!--禁用项目-->
+    <update id="disable">
+        UPDATE  project_info SET
+            del_flag='1'
+        WHERE id IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 
-
+    <!--委派项目到中介-->
+    <update id="toDelegate">
+        UPDATE  project_info SET
+          intermediary_organ_id=#{intermediaryOrgan.id},
+          status=#{PROJECT_STATUS_DELEGATE},
+          update_date=#{updateDate},
+          update_by=#{updateBy.id}
+        WHERE id =#{id}
+    </update>
 
 
 
@@ -50,6 +106,12 @@
            `audit_fee_provenance`,
            `purchasing_type_description` ,
            `audit_fee_name` ,
+           `report_number` ,
+           `fixed_amount` ,
+           `reduction_ratio` ,
+           `deductions` ,
+           `audit_fee` ,
+           `supplementary_day` ,
            `status` ,
            `del_flag` ,
            `create_date` ,
@@ -74,6 +136,12 @@
             #{auditFeeProvenance},
             #{purchasingTypeDescription},
             #{auditFeeName},
+            #{reportNumber},
+            #{fixedAmount},
+            #{reductionRatio},
+            #{deductions},
+            #{auditFee},
+            #{supplementaryDay},
             #{PROJECT_STATUS_REGISTER},
             #{delFlag},
             #{createDate},

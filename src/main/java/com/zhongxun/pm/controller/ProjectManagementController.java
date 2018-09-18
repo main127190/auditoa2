@@ -2,6 +2,7 @@ package com.zhongxun.pm.controller;
 
 import com.zhongxun.commons.base.BaseController;
 import com.zhongxun.commons.utils.PageInfo;
+import com.zhongxun.commons.utils.StringUtils;
 import com.zhongxun.pm.model.BaseProjectInfo;
 import com.zhongxun.pm.service.IProjectManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,25 +35,26 @@ public class ProjectManagementController extends BaseController {
     }
 
     /**
+     * 跳转到委派页面
+     * @return
+     */
+    @GetMapping("/delegate")
+    public String delegate(Long id,Model model) {
+        model.addAttribute("id",id) ;
+        return "pm/delegate";
+    }
+
+    /**
      * 项目添加页面
      * @return
      */
     @RequestMapping("/projectManagementAdd")
     public String projectManagementAdd(BaseProjectInfo baseProjectInfo ,Model model) {
 
-//        if(intermediaryOrgan.getId()!=null){
-//            intermediaryOrgan = intermediaryOrganService.selectById(intermediaryOrgan);
-//            model.addAttribute("intermediaryOrgan",intermediaryOrgan) ;
-//        }
-//        String fileKey=null ;
-//        if(StringUtils.isBlank(intermediaryOrgan.getFileUrl())){
-//            //没有上传过文件，创建文件上传key
-//            fileKey =  UUID.randomUUID().toString().replaceAll("-", "");
-//        }else{
-//            fileKey= intermediaryOrgan.getFileUrl() ;
-//        }
-//        model.addAttribute("fileKey",fileKey) ;
-        model.addAttribute("intermediaryOrgan",baseProjectInfo) ;
+        if(baseProjectInfo.getId()!=null){
+            baseProjectInfo = projectManagementService.selectById(baseProjectInfo);
+        }
+        model.addAttribute("baseProjectInfo",baseProjectInfo) ;
         return "pm/projectManagementAdd";
     }
 
@@ -84,5 +86,37 @@ public class ProjectManagementController extends BaseController {
 
     }
 
+    /**
+     * 根据ID禁用中介公司
+     * @return
+     */
+    @RequestMapping("/disable")
+    @ResponseBody
+    public Object disable(String ids) {
+        if(StringUtils.isNotBlank(ids)){
+            projectManagementService.disable(ids.split(","));
+        }
+        return renderSuccess("删除成功！");
+    }
 
+    /**
+     * 为项目委派中介
+     * @return
+     */
+    @RequestMapping("/toDelegate")
+    @ResponseBody
+    public Object toDelegate(BaseProjectInfo baseProjectInfo) {
+        projectManagementService.toDelegate(baseProjectInfo);
+        return renderSuccess("删除成功！");
+    }
+    /**
+     *
+     * @return
+     */
+    @RequestMapping("/addAuditProcess")
+    public String addAuditProcess(BaseProjectInfo baseProjectInfo,Model model) {
+        projectManagementService.toDelegate(baseProjectInfo);
+        model.addAttribute("baseProjectInfo", baseProjectInfo) ;
+        return "pm/addAuditProcess";
+    }
 }

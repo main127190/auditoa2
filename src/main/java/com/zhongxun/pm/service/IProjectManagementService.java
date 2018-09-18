@@ -12,4 +12,9 @@ import com.zhongxun.pm.model.BaseProjectInfo;
  */
 public interface IProjectManagementService extends IService<BaseProjectInfo> {
     void selectDataGrid(PageInfo pageInfo, BaseProjectInfo baseProjectInfo);
+
+    BaseProjectInfo selectById(BaseProjectInfo baseProjectInfo);
+    void disable(String[] ids);
+
+    void toDelegate(BaseProjectInfo baseProjectInfo);
 }

@@ -128,6 +128,18 @@
 <div id="projectToolbar" style="display: none;">
     <shiro:hasPermission name="/role/add">
         <a onclick="projectManagementAdd();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-plus icon-green'">添加</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-x icon-red'" onclick="deleteRoleFun();" >删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'fi-x icon-red'" onclick="deleteProjectFun();" >删除</a>
     </shiro:hasPermission>
+</div>
+<%--<div id="menu" class="easyui-menu" style="width: 30px; display: none;">--%>
+    <%--<!--放置一个隐藏的菜单Div-->--%>
+    <%--<div id="btn_More" data-options="iconCls:'icon-remove'" onclick="MoreInfo()">更多</div>--%>
+<%--</div>--%>
+
+<div id="menu">
+    <div type="addAuditProcess" style="font-size: 12px;">添加审核过程信息</div>
+    <div type="addAssessment" style="font-size: 12px;">添加中介考核信息</div>
+    <div type="addAccounts" style="font-size: 12px;">添加审计费核算信息</div>
+    <div type="addResults" style="font-size: 12px;">添加审计成果信息</div>
+    <div type="over" style="font-size: 12px;">结束项目</div>
 </div>

@@ -37,7 +37,7 @@ public class ProjectManagementServiceImpl extends ServiceImpl<ProjectManagementM
         }else{
             //更新
             baseProjectInfo.preUpdate();
-            projectManagementMapper.updateById(null) ;
+            projectManagementMapper.updateById(baseProjectInfo) ;
         }
         return false;
     }
@@ -55,4 +55,21 @@ public class ProjectManagementServiceImpl extends ServiceImpl<ProjectManagementM
         pageInfo.setTotal(page.getTotal());
     }
 
+    public BaseProjectInfo selectById(BaseProjectInfo baseProjectInfo){
+        return projectManagementMapper.selectById(baseProjectInfo);
+    }
+    /**
+     * 根据id数组,禁用中介
+     * @return
+     */
+    public void disable(String[] ids){
+        projectManagementMapper.disable(ids);
+    }  /**
+     * 根据id数组,禁用中介
+     * @return
+     */
+    public void toDelegate(BaseProjectInfo baseProjectInfo){
+        baseProjectInfo.preUpdate();
+        projectManagementMapper.toDelegate(baseProjectInfo);
+    }
 }
