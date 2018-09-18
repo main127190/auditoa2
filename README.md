@@ -30,19 +30,6 @@
 
 > 图标管理
 
-## 学习vs开发
-项目导入请百度`eclipse`、`myeclipse`、`idea`等IDE导入`maven web`项目。
-
-项目启动可采用内置jetty maven plugin，`mvn jerry:run`！
-
-你需要根据自己的业务添加`shiro注解`，实现请求控制。
-
-如果觉得数据校验不够，请自行添加`hibernate-validator`在Bean上做校验！
-
-更多`shiro`的教程请参考（开涛博客`《跟我学Shiro》`）：http://jinnianshilongnian.iteye.com/category/305053
-
-另外欢迎`Pull Requests`，和我们一起完善该项目！
-
 ## 运行环境
 `jdk7 + tomcat7`或以上！
 
