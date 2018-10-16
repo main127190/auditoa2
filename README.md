@@ -39,7 +39,4 @@
 
 线上`production`请注意添加一份`cofing/application.properties`配置文件（由于开源，使用`.gitignore`进行了屏蔽）
 
-## 说明
-`Webhook`是结合`osc@git`[Webhook功能](http://git.mydoc.io/?t=83172)开发的项目自动更新打包部署功能！
 
-如果不需要该功能可以删除`event`目录和`controller`目录下的`WebHooks`相关java文件！
